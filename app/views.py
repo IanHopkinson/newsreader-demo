@@ -31,6 +31,7 @@ def call_newsreader_events_shared(name):
     data = {"nodes": [], "links": []}
     names = [name]
     data["nodes"].append({"name":names[0],"group":1})
+    data["links"].append({"source":0,"target":0,"value":1},)
     query_string_template = "https://newsreader.scraperwiki.com/wikinews/people_sharing_event_with_a_person/page/{page}?uris.0=dbpedia%3A{name}&output=json&api_key={api_key}"
     index = 1
     for name in names:
@@ -38,7 +39,7 @@ def call_newsreader_events_shared(name):
         while True:
             r = requests.get(query_string_template.format(name=name, page=page, api_key=api_key))
             page = page + 1
-            if "error" in r.json:
+            if "error" in r.json().keys():
                 break
 
             actor_data = r.json()

@@ -4,6 +4,7 @@ run:    build
 	    --read-only \
 	    --rm \
 	    --volume /tmp \
+	    -e NEWSREADER_PUBLIC_API_KEY \
 	    ianhopkinson/newsreader_demo
 
 build:
