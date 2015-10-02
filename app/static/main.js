@@ -6,7 +6,7 @@ $(document).ready(function() {
 
     var force = d3.layout.force()
         .charge(-120)
-        .linkDistance(30)
+        .linkDistance(100)
         .size([width, height]);
 
     var svg = d3.select(".container").append("svg")
@@ -33,7 +33,9 @@ $(document).ready(function() {
             .data(graph.nodes)
             .enter().append("circle")
             .attr("class", "node")
-            .attr("r", 5)
+            .attr("r", function(d) {
+                return 3.0 + 2.0 * Math.sqrt(d.value);
+            })
             .style("fill", function(d) {
                 return color(d.group);
             })
@@ -43,6 +45,12 @@ $(document).ready(function() {
             .text(function(d) {
                 return d.name;
             });
+
+        node.append("text")
+            .attr("dx", 12)
+            .attr("dy", ".35em")
+            .text(function(d) { return d.name });
+
 
         force.on("tick", function() {
             link.attr("x1", function(d) {

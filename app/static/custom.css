@@ -19,3 +19,8 @@
   stroke: #999;
   stroke-opacity: .6;
 }
+
+.node text {
+  pointer-events: none;
+  font: 10px sans-serif;
+}

@@ -44,10 +44,12 @@ def call_newsreader_events_shared(name):
 
             actor_data = r.json()
             for entry in actor_data["payload"]:
-                data["nodes"].append({"name":entry["actor2"],"group":1})
+                count = actor_data["count"]
+                actor = entry["actor2"].replace("http://dbpedia.org/resource/", "")
+                data["nodes"].append({"name": actor,"group":1, "value":float(entry["numEvent"])})
                 data["links"].append({"source":index,"target":0,"value":1},)
                 index = index + 1
-
+    data["nodes"][0]["value"] = count
     return data
 
 data = call_newsreader_events_shared("Barack_Obama") 
