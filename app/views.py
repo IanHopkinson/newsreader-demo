@@ -11,8 +11,13 @@ import requests
 
 data = []
 
-@app.route('/network')
+@app.route('/')
 def index():
+    content = render_template("index.html")
+    return content
+
+@app.route('/network')
+def network():
     content = render_template("network.html")
     return content
 
