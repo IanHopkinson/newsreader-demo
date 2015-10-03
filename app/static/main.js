@@ -31,15 +31,17 @@ $(document).ready(function() {
 
         var node = svg.selectAll(".node")
             .data(graph.nodes)
-            .enter().append("circle")
+            .enter().append("g")
             .attr("class", "node")
+            .call(force.drag);
+
+        node.append("circle")
             .attr("r", function(d) {
                 return 3.0 + 2.0 * Math.sqrt(d.value);
             })
             .style("fill", function(d) {
                 return color(d.group);
             })
-            .call(force.drag);
 
         node.append("title")
             .text(function(d) {
@@ -66,12 +68,13 @@ $(document).ready(function() {
                     return d.target.y;
                 });
 
-            node.attr("cx", function(d) {
+            /*node.attr("cx", function(d) {
                     return d.x;
                 })
                 .attr("cy", function(d) {
                     return d.y;
-                });
+                }); */
+            node.attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
         });
     });
 });
