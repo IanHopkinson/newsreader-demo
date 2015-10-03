@@ -11,12 +11,12 @@ import requests
 
 data = []
 
-@app.route('/')
+@app.route('/network')
 def index():
-    content = render_template("index.html")
+    content = render_template("network.html")
     return content
 
-@app.route('/data')
+@app.route('/network/data')
 def getData():
     global data
     return json.dumps(data)

@@ -23,7 +23,7 @@ $(document).ready(function() {
     } 
     */
 
-    d3.json("/data", function(error, graph) {
+    d3.json("/network/data", function(error, graph) {
         if (error) throw error;
 
         force
