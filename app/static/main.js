@@ -9,9 +9,19 @@ $(document).ready(function() {
         .linkDistance(100)
         .size([width, height]);
 
+    /* var zoom = d3.behavior.zoom()
+        .scaleExtent([1, 10])
+        .on("zoom", zoomed);
+    */
+
     var svg = d3.select(".container").append("svg")
         .attr("width", width)
         .attr("height", height);
+
+    /* function zoomed() {
+        container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    } 
+    */
 
     d3.json("/data", function(error, graph) {
         if (error) throw error;
@@ -48,11 +58,11 @@ $(document).ready(function() {
                 return d.name;
             });
 
-        node.append("text")
+/*        node.append("text")
             .attr("dx", 12)
             .attr("dy", ".35em")
             .text(function(d) { return d.name });
-
+*/
 
         force.on("tick", function() {
             link.attr("x1", function(d) {
@@ -68,12 +78,6 @@ $(document).ready(function() {
                     return d.target.y;
                 });
 
-            /*node.attr("cx", function(d) {
-                    return d.x;
-                })
-                .attr("cy", function(d) {
-                    return d.y;
-                }); */
             node.attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
         });
     });
