@@ -24,8 +24,9 @@ $(document).ready(function() {
     */
 
     var endpoint = $('#endpoint').text()
+    var actor = $('#actor').text()
 
-    d3.json("/" + endpoint + "/network/data/Barack_Obama", function(error, graph) {
+    d3.json("/" + endpoint + "/network/data/" + actor, function(error, graph) {
         if (error) throw error;
 
         force

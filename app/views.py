@@ -23,13 +23,8 @@ def network(endpoint, actor):
 
 @app.route('/<endpoint>/network/data/<actor>')
 def getData(endpoint, actor):
-    global data
+    data = call_newsreader_events_shared(actor)
     return json.dumps(data)
-
-def read_data_file(filename):
-    with open(filename) as data_file:    
-        data = json.load(data_file)
-    return data
 
 def call_newsreader_events_shared(name):
     api_key = os.environ['NEWSREADER_PUBLIC_API_KEY']
@@ -57,4 +52,4 @@ def call_newsreader_events_shared(name):
     data["nodes"][0]["value"] = count
     return data
 
-data = call_newsreader_events_shared("Barack_Obama") 
+ 
