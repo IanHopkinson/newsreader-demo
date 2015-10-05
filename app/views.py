@@ -17,6 +17,7 @@ def index():
     return content
 
 @app.route('/network',defaults={'endpoint': 'wikinews', 'actor':'Barack_Obama'})
+@app.route('/network/<endpoint>/',defaults={'actor':'Barack_Obama'})
 @app.route('/network/<endpoint>/<actor>')
 def network(endpoint, actor):
     content = render_template("network.html", actor=actor)
