@@ -23,7 +23,9 @@ $(document).ready(function() {
     } 
     */
 
-    d3.json("/network/data", function(error, graph) {
+    var endpoint = $('#endpoint').text()
+
+    d3.json("/" + endpoint + "/network/data/Barack_Obama", function(error, graph) {
         if (error) throw error;
 
         force

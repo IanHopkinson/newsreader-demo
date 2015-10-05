@@ -16,13 +16,13 @@ def index():
     content = render_template("index.html")
     return content
 
-@app.route('/network')
-def network():
-    content = render_template("network.html")
+@app.route('/<endpoint>/network/<actor>')
+def network(endpoint, actor):
+    content = render_template("network.html", actor=actor)
     return content
 
-@app.route('/network/data')
-def getData():
+@app.route('/<endpoint>/network/data/<actor>')
+def getData(endpoint, actor):
     global data
     return json.dumps(data)
 
