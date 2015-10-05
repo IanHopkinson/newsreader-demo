@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    var width = 960,
-        height = 500;
+    var width = 600,
+        height = 400;
 
     var color = d3.scale.category20();
 
@@ -14,9 +14,13 @@ $(document).ready(function() {
         .on("zoom", zoomed);
     */
 
-    var svg = d3.select(".container").append("svg")
-        .attr("width", width)
-        .attr("height", height);
+    var svg = d3.select(".container")
+        .append("div")
+        .classed("svg-container", true)
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 600 400")
+        .classed("svg-content-responsive", true); 
 
     /* function zoomed() {
         container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
@@ -82,6 +86,7 @@ $(document).ready(function() {
                 });
 
             node.attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
+
         });
     });
 });

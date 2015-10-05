@@ -3,6 +3,12 @@
 
  A web app which demos the [NewsReader Project](https://) technology by making visualisations via the [Simple API](), developed at [ScraperWiki](https://scraperwiki.com). 
 
+# TODO
+
+2. Provide a "Getting data..." notification
+4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
+
+
 # Workflow Overview
 
 * Find the most common types of actor
@@ -28,3 +34,8 @@ Document centric
  Adding text to nodes:
 
  http://stackoverflow.com/questions/20662192/how-to-place-text-on-the-circle-when-using-d3-js-force-layout
+
+Making the d3 SVG responsive:
+
+http://stackoverflow.com/a/25978286/19172
+
