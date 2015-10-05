@@ -30,7 +30,7 @@ $(document).ready(function() {
     var endpoint = $('#endpoint').text()
     var actor = $('#actor').text()
 
-    d3.json("/" + endpoint + "/network/data/" + actor, function(error, graph) {
+    d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, graph) {
         if (error) throw error;
 
         force

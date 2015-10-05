@@ -5,6 +5,7 @@
 
 # TODO
 
+1. Network.html should really have an "actor selector" and we should have a default "actor" for the menu
 2. Provide a "Getting data..." notification
 4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
 
@@ -23,19 +24,22 @@ Document centric
 
 
 # Notes
- The actor graph visualisation started life with this:
+The actor graph visualisation started life with this:
 
- http://bl.ocks.org/mbostock/4062045
+http://bl.ocks.org/mbostock/4062045
 
- Adding drag + zoom:
+Adding drag + zoom:
 
- http://bl.ocks.org/mbostock/6123708
+http://bl.ocks.org/mbostock/6123708
 
- Adding text to nodes:
+Adding text to nodes:
 
- http://stackoverflow.com/questions/20662192/how-to-place-text-on-the-circle-when-using-d3-js-force-layout
+http://stackoverflow.com/questions/20662192/how-to-place-text-on-the-circle-when-using-d3-js-force-layout
 
 Making the d3 SVG responsive:
 
 http://stackoverflow.com/a/25978286/19172
 
+Data Attributes look interesting:
+
+https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes

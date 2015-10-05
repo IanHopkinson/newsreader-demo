@@ -16,12 +16,13 @@ def index():
     content = render_template("index.html")
     return content
 
-@app.route('/<endpoint>/network/<actor>')
+@app.route('/network',defaults={'endpoint': 'wikinews', 'actor':'Barack_Obama'})
+@app.route('/network/<endpoint>/<actor>')
 def network(endpoint, actor):
     content = render_template("network.html", actor=actor)
     return content
 
-@app.route('/<endpoint>/network/data/<actor>')
+@app.route('/network/<endpoint>/<actor>/data')
 def getData(endpoint, actor):
     data = call_newsreader_events_shared(actor)
     return json.dumps(data)
