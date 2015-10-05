@@ -8,7 +8,8 @@
 1. Network.html should really have an "actor selector" and we should have a default "actor" for the menu
 2. Provide a "Getting data..." notification
 4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
-
+5. Network view should overlay a second network on double-clicking a node
+6. Single click on node should give biographical information
 
 # Workflow Overview
 

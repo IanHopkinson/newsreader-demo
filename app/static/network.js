@@ -1,3 +1,12 @@
+function pressRefresh(e){
+  var endpoint = $('#endpoint').text()
+  var actor = $('#selCentralActor').val()
+  
+  new_url = "/network/" + endpoint + "/" + actor
+  window.location.href = new_url;
+  
+}
+
 $(document).ready(function() {
     var width = 600,
         height = 400;
