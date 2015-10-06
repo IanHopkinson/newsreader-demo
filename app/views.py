@@ -32,9 +32,18 @@ def call_newsreader_events_shared(name):
     api_key = os.environ['NEWSREADER_PUBLIC_API_KEY']
     data = {"nodes": [], "links": []}
     names = [name]
-    data["nodes"].append({"name":names[0],"group":1})
+
+    #
+    describe_string_template = "https://newsreader.scraperwiki.com/wikinews/describe_uri?uris.0=dbpedia:{name}&output=json&api_key={api_key}"
+    name = "Barack_Obama"
+    r = requests.get(describe_string_template.format(name=name, api_key=api_key))
+    comment = data["payload"]["@graph"][0]["dbo:guest"]["rdfs:comment"]["@value"]
+
+
+    data["nodes"].append({"name":names[0],"group":1, "value":float(0.0), "comment": comment})
     data["links"].append({"source":0,"target":0,"value":1},)
     query_string_template = "https://newsreader.scraperwiki.com/wikinews/people_sharing_event_with_a_person/page/{page}?uris.0=dbpedia%3A{name}&output=json&api_key={api_key}"
+    
     index = 1
     for name in names:
         page = 1
@@ -45,6 +54,8 @@ def call_newsreader_events_shared(name):
                 break
 
             actor_data = r.json()
+            # Set the comment for the root node
+            data["nodes"][0]["value"] = actor_data["count"]
             for entry in actor_data["payload"]:
                 count = actor_data["count"]
                 actor = entry["actor2"].replace("http://dbpedia.org/resource/", "")

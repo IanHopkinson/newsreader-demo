@@ -5,7 +5,6 @@
 
 # TODO
 
-1. pressRefresh() should put the selected actor in the text entry box
 2. Provide a "Getting data..." notification
 4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
 5. Network view should overlay a second network on double-clicking a node
