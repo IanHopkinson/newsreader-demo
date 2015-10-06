@@ -37,13 +37,14 @@ def call_newsreader_events_shared(name):
     describe_string_template = "https://newsreader.scraperwiki.com/wikinews/describe_uri?uris.0=dbpedia:{name}&output=json&api_key={api_key}"
     name = "Barack_Obama"
     r = requests.get(describe_string_template.format(name=name, api_key=api_key))
-    comment = data["payload"]["@graph"][0]["dbo:guest"]["rdfs:comment"]["@value"]
+    describe = r.json()
+    comment = describe["payload"]["@graph"][0]["dbo:guest"]["rdfs:comment"]["@value"]
 
 
     data["nodes"].append({"name":names[0],"group":1, "value":float(0.0), "comment": comment})
     data["links"].append({"source":0,"target":0,"value":1},)
     query_string_template = "https://newsreader.scraperwiki.com/wikinews/people_sharing_event_with_a_person/page/{page}?uris.0=dbpedia%3A{name}&output=json&api_key={api_key}"
-    
+
     index = 1
     for name in names:
         page = 1
@@ -65,4 +66,4 @@ def call_newsreader_events_shared(name):
     data["nodes"][0]["value"] = count
     return data
 
- 
+
