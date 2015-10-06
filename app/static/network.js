@@ -1,7 +1,9 @@
+var data;
+
 function pressRefresh(e){
   var endpoint = $('#endpoint').text()
   var actor = $('#selCentralActor').val()
-  
+
   new_url = "/network/" + endpoint + "/" + actor
   window.location.href = new_url;
   
@@ -39,9 +41,12 @@ $(document).ready(function() {
     var endpoint = $('#endpoint').text()
     var actor = $('#actor').text()
 
+    // This makes sure the actor appears in the select box
+    $("#selCentralActor").val(actor)
+
     d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, graph) {
         if (error) throw error;
-
+        data = graph;
         force
             .nodes(graph.nodes)
             .links(graph.links)

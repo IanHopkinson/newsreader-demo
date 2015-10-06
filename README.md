@@ -5,11 +5,13 @@
 
 # TODO
 
-1. Network.html should really have an "actor selector" and we should have a default "actor" for the menu
+1. pressRefresh() should put the selected actor in the text entry box
 2. Provide a "Getting data..." notification
 4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
 5. Network view should overlay a second network on double-clicking a node
 6. Single click on node should give biographical information
+6. Get biographical data for the origin node 
+7. Force layout seems to start some way off screen... this looks like a fix: http://stackoverflow.com/a/19176409/19172
 
 # Workflow Overview
 
@@ -18,6 +20,7 @@
 * Find out which events involve a named actor selected from above
 * Find out which other actors are involved in the events
 * Show the documents supporting an Event
+* Show a timeline of events
 
 Document centric
 

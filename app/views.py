@@ -48,7 +48,7 @@ def call_newsreader_events_shared(name):
             for entry in actor_data["payload"]:
                 count = actor_data["count"]
                 actor = entry["actor2"].replace("http://dbpedia.org/resource/", "")
-                data["nodes"].append({"name": actor,"group":1, "value":float(entry["numEvent"])})
+                data["nodes"].append({"name": actor,"group":1, "value":float(entry["numEvent"]), "comment": entry["comment"]})
                 data["links"].append({"source":index,"target":0,"value":1},)
                 index = index + 1
     data["nodes"][0]["value"] = count
