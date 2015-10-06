@@ -10,6 +10,9 @@ function pressRefresh(e){
 }
 
 $(document).ready(function() {
+    // Start fetching data
+    $("#refresh-btn").addClass("loading").html('Fetching…')
+
     var width = 600,
         height = 400;
 
@@ -101,6 +104,8 @@ $(document).ready(function() {
 
             node.attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
 
+        // Put the Refresh button back to normal
+        $("#refresh-btn").removeClass("loading").html('<span class="glyphicon glyphicon-refresh"></span>Refresh')
         });
     });
 });

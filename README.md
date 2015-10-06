@@ -5,11 +5,9 @@
 
 # TODO
 
-2. Provide a "Getting data..." notification
 4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
 5. Network view should overlay a second network on double-clicking a node
-6. Single click on node should give biographical information
-6. Get biographical data for the origin node 
+6. Single click on node should give biographical information 
 7. Force layout seems to start some way off screen... this looks like a fix: http://stackoverflow.com/a/19176409/19172
 
 # Workflow Overview
