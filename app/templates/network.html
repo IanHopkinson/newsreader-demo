@@ -1,23 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-  <script src="{{url_for('static', filename='network.js')}}"></script>
-  <h2>Network view - actors appearing with <span id="actor">{{ actor }}</span></h2>
-  <p>Data from the <span id="endpoint">wikinews</span> dataset</p>
+ <script src="{{url_for('static', filename='network.js')}}"></script>
+<h2>Network view - actors appearing with <span id="actor">{{ actor }}</span></h2>
+<p>Data from the <span id="endpoint">wikinews</span> dataset</p>
+<div class="row">
+    <div class="col-md-4">
+        <form class="form-inline">
+            <input type="text" id="selCentralActor" list="CentralActors">
+            <datalist id="CentralActors">
+                <select>
+                  <option value="Barack_Obama">
+                  <option value="David_Cameron">
+                  <option value="Ed_Miliband">
+                  <option value="George_W._Bush">
+                  <option value="Hillary_Rodham_Clinton">
+                  <option value="John_McCain">
+                  <option value="Mitt_Romney">
+                  <option value="Michael_Bloomberg">
+                  <option value="Nick_Clegg">
+                  <option value="Sarah_Palin">
+                </select>
+            </datalist>
+            </input>
+            <button class="btn btn-primary" id="refresh-btn" onclick="event.preventDefault();pressRefresh()">
+                <span id="refresh-glyph" class="glyphicon glyphicon-refresh"></span>Refresh
+            </button>
+        </form>
+    </div>
+    <div class="col-md-8">
+      <p class= "" id="selected-actor"><strong>Barack_Obama - Placeholder</strong><span id="selected-actor-biog"> - Placeholder Barack Hussein Obama II (/bəˈrɑːk huːˈseɪn oʊˈbɑːmə/; born August 4, 1961) is the 44th and current President of the United States, and the first African American to hold the office. Born in Honolulu, Hawaii, Obama is a graduate of Columbia University and Harvard Law School, where he served as president of the Harvard Law Review. He was a community organizer in Chicago before earning his law degree.</span></p>
+    </div>
+</div>
 
-  <form class="form-inline">
-  <input type="text" id="selCentralActor" list="CentralActors">
-    <datalist id="CentralActors">
-      <select>
-        <option value="Barack_Obama">
-        <option value="George_W._Bush">
-        <option value="John_McCain">
-        <option value="Sarah_Palin">
-      </select>
-    </datalist>
-  </input>
-  <button class="btn btn-primary" id="refresh-btn" onclick="event.preventDefault();pressRefresh()">
-          <span id="refresh-glyph" class="glyphicon glyphicon-refresh"></span>Refresh
-  </button>
-  </form>
 
 {% endblock %}
