@@ -1,5 +1,15 @@
 var data;
 
+function nodeClick(d) {
+    console.log(d["comment"])
+    $("#selected-actor").html('<strong>' + d.name + ':  </strong>')
+    $("#selected-actor-biog").html(d["comment"])
+}
+
+function nodeDblclick() {
+    console.log("dblclick" + d3.select(this).title)
+}
+
 function pressRefresh(e){
   var endpoint = $('#endpoint').text()
   var actor = $('#selCentralActor').val()
@@ -67,6 +77,8 @@ $(document).ready(function() {
             .data(graph.nodes)
             .enter().append("g")
             .attr("class", "node")
+            .on("click", nodeClick)
+            .on("dblclick", nodeDblclick)
             .call(force.drag);
 
         node.append("circle")
