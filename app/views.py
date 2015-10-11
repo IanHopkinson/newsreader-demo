@@ -33,12 +33,11 @@ def call_newsreader_events_shared(name):
     data = {"nodes": [], "links": []}
     names = [name]
 
-    #
-    describe_string_template = "https://newsreader.scraperwiki.com/wikinews/describe_uri?uris.0=dbpedia:{name}&output=json&api_key={api_key}"
-    r = requests.get(describe_string_template.format(name=name, api_key=api_key))
-    describe = r.json()
-    # This only seems to work for Barack Obama
-    comment = describe["payload"]["@graph"][0]["dbo:guest"]["rdfs:comment"]["@value"]
+    # Note I'm using newsreader-dev because of problems with deploy to NewsReader.
+    property_string_template = "https://newsreader-dev.scraperwiki.com/wikinews/property_of_an_actor?uris.0=dbpedia%3A{name}&uris.1={property}&output=json&api_key={api_key}"
+    r = requests.get(property_string_template.format(name=name, property="rdfs:comment", api_key=api_key))
+    response = r.json()
+    comment = response["payload"][0]["value"]
 
 
     data["nodes"].append({"name":names[0],"group":1, "value":float(0.0), "comment": comment})
