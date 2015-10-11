@@ -7,7 +7,9 @@
 
 4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
 5. Network view should overlay a second network on double-clicking a node
-6. Single click on node should give biographical information 
+6. Biography of central actor
+7. Biography of selected actor
+8. Events involving both actors 
 7. Force layout seems to start some way off screen... this looks like a fix: http://stackoverflow.com/a/19176409/19172
 
 # Workflow Overview
@@ -25,6 +27,23 @@ Document centric
 
 
 # Notes
+
+Really simple query to get a particular property about a particular uri
+
+SELECT (<http://dbpedia.org/resource/Barack_Obama> AS ?actor) ?value
+WHERE {
+  OPTIONAL { <http://dbpedia.org/resource/Barack_Obama> rdfs:comment ?value }
+}
+
+Replace rdfs:comment with, for example, dbo:birthDate, dbo:birthPlace,
+
+This one gets you everything:
+
+SELECT (<http://dbpedia.org/resource/Barack_Obama> AS ?actor) ?item ?value
+WHERE {
+  OPTIONAL { <http://dbpedia.org/resource/Barack_Obama> ?item ?value }
+}
+
 The actor graph visualisation started life with this:
 
 http://bl.ocks.org/mbostock/4062045

@@ -35,9 +35,9 @@ def call_newsreader_events_shared(name):
 
     #
     describe_string_template = "https://newsreader.scraperwiki.com/wikinews/describe_uri?uris.0=dbpedia:{name}&output=json&api_key={api_key}"
-    name = "Barack_Obama"
     r = requests.get(describe_string_template.format(name=name, api_key=api_key))
     describe = r.json()
+    # This only seems to work for Barack Obama
     comment = describe["payload"]["@graph"][0]["dbo:guest"]["rdfs:comment"]["@value"]
 
 

@@ -3,7 +3,7 @@ run:    build
 	    -p 8000:8000 \
 	    --read-only \
 	    --rm \
-	    --volume /tmp \
+	    --volume //tmp \
 	    -e NEWSREADER_PUBLIC_API_KEY \
 	    ianhopkinson/newsreader_demo
 

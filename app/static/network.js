@@ -116,6 +116,9 @@ $(document).ready(function() {
 
             node.attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
 
+        // Put in the central actor name and biog
+        $("#central-actor").html('<strong>' + actor + ':  </strong>')
+        $("#central-actor-biog").html(graph["nodes"][0]["comment"])
         // Put the Refresh button back to normal
         $("#refresh-btn").removeClass("loading").html('<span class="glyphicon glyphicon-refresh"></span>Refresh')
         });
