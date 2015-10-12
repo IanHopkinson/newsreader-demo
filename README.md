@@ -27,6 +27,14 @@ Document centric
 
 # Notes
 
+Updating a force layout, Mike Bostock's illustration:
+
+http://bl.ocks.org/mbostock/1095795
+
+The data-join concept seems important:
+
+http://bost.ocks.org/mike/join/
+
 Really simple query to get a particular property about a particular uri
 
 SELECT (<http://dbpedia.org/resource/Barack_Obama> AS ?actor) ?value

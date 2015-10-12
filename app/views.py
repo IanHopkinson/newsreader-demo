@@ -34,7 +34,7 @@ def call_newsreader_events_shared(name):
     names = [name]
 
     # Note I'm using newsreader-dev because of problems with deploy to NewsReader.
-    property_string_template = "https://newsreader-dev.scraperwiki.com/wikinews/property_of_an_actor?uris.0=dbpedia%3A{name}&uris.1={property}&output=json&api_key={api_key}"
+    property_string_template = "https://newsreader.scraperwiki.com/wikinews/property_of_an_actor?uris.0=dbpedia%3A{name}&uris.1={property}&output=json&api_key={api_key}"
     r = requests.get(property_string_template.format(name=name, property="rdfs:comment", api_key=api_key))
     response = r.json()
     comment = response["payload"][0]["value"]
