@@ -1,9 +1,13 @@
 var data;
+var color = d3.scale.category20();
 
 function nodeClick(d) {
-    console.log(d["comment"])
     $("#selected-actor").html('<strong>' + d.name + ':  </strong>')
     $("#selected-actor-biog").html(d["comment"])
+    // Reset all colours
+    d3.selectAll("circle").style('fill', function(d) { return color(d.group); })
+    // Set one node colour
+    d3.select(this).select("circle").style('fill', function(d) { return "red"; });
 }
 
 function nodeDblclick() {
@@ -25,8 +29,6 @@ $(document).ready(function() {
 
     var width = 600,
         height = 400;
-
-    var color = d3.scale.category20();
 
     var force = d3.layout.force()
         .charge(-120)
