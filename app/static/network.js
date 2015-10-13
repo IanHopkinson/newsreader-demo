@@ -105,6 +105,41 @@ function initialiseLayout(graph) {
             .on("tick", tick)
 }
 
+function populateNodes(graph) {
+    link = link.data(graph.links)
+            .enter().append("line")
+            .attr("class", "link")
+            .style("stroke-width", function(d) {
+                return Math.sqrt(d.value);
+            });
+
+        
+        node = node.data(graph.nodes)
+            .enter().append("g")
+            .attr("class", "node")
+            //.attr("transform", function(d) { return 'translate-setup(' + [d.x, d.y] + ')'; })
+            .on("click", nodeClick)
+            .on("dblclick", nodeDblclick)
+            .call(force.drag);
+
+        node = node
+            .append("circle")
+            .attr("r", function(d) {
+                return 3.0 + 2.0 * Math.sqrt(d.value);
+            })
+            .style("fill", function(d) {
+                return color(d.group);
+            })
+
+        node = node
+            .append("title")
+            .text(function(d) {
+                return d.name;
+            });
+
+        // Start it all running
+        force.start();
+}
 
 $(document).ready(function() {
     // Start fetching data
@@ -133,44 +168,17 @@ $(document).ready(function() {
 
         
         link = svg.selectAll(".link")
-        link = link.data(graph.links)
-            .enter().append("line")
-            .attr("class", "link")
-            .style("stroke-width", function(d) {
-                return Math.sqrt(d.value);
-            });
-
         node = svg.selectAll(".node")
-        node = node.data(graph.nodes)
-            .enter().append("g")
-            .attr("class", "node")
-            //.attr("transform", function(d) { return 'translate-setup(' + [d.x, d.y] + ')'; })
-            .on("click", nodeClick)
-            .on("dblclick", nodeDblclick)
-            .call(force.drag);
 
-        node = node
-            .append("circle")
-            .attr("r", function(d) {
-                return 3.0 + 2.0 * Math.sqrt(d.value);
-            })
-            .style("fill", function(d) {
-                return color(d.group);
-            })
-
-        node = node
-            .append("title")
-            .text(function(d) {
-                return d.name;
-            });
+        populateNodes(graph)
+        
 
         // Make sure the globals are initialised with the correct things
         svg = d3.select(".svg-content-responsive")
         node = svg.selectAll(".node")
         link = svg.selectAll(".link")
 
-        // Start it all running
-        force.start();
+
         // Put in the central actor name and biog
         $("#central-actor").html('<strong>' + actor + ':  </strong>')
         $("#central-actor-biog").html(graph["nodes"][0]["comment"])
