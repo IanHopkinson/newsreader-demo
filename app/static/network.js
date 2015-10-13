@@ -4,10 +4,10 @@ var width = 600, height = 400;
 
 var force;
 
-var svg = d3.select(".container")
+var svg; 
 
-var link = svg.selectAll(".link")
-var node = svg.selectAll(".node")
+var link; 
+var node;
 
 
 function nodeClick(d) {
@@ -92,8 +92,6 @@ function tick() {
             return d.target.y;
         });
 
-    var svg = d3.select(".container")
-    var node = svg.selectAll(".node")
     node = node.attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
 }
 
@@ -101,8 +99,7 @@ $(document).ready(function() {
     // Start fetching data
     $("#refresh-btn").addClass("loading").html('Fetching…')
 
-
-    svg = svg
+    svg = d3.select(".container")
         .append("div")
         .classed("svg-container", true)
         .append("svg")
@@ -129,6 +126,7 @@ $(document).ready(function() {
             .links(graph.links)
             .on("tick", tick)
 
+        link = svg.selectAll(".link")
         link = link.data(graph.links)
             .enter().append("line")
             .attr("class", "link")
@@ -136,10 +134,11 @@ $(document).ready(function() {
                 return Math.sqrt(d.value);
             });
 
+        node = svg.selectAll(".node")
         node = node.data(graph.nodes)
             .enter().append("g")
             .attr("class", "node")
-            .attr("transform", function(d) { return 'translate-setup(' + [d.x, d.y] + ')'; })
+            //.attr("transform", function(d) { return 'translate-setup(' + [d.x, d.y] + ')'; })
             .on("click", nodeClick)
             .on("dblclick", nodeDblclick)
             .call(force.drag);
@@ -158,6 +157,10 @@ $(document).ready(function() {
             .text(function(d) {
                 return d.name;
             });
+
+        svg = d3.select(".svg-content-responsive")
+        node = svg.selectAll(".node")
+        link = svg.selectAll(".link")
 
         force.start();
         // Put in the central actor name and biog
