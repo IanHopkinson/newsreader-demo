@@ -1,7 +1,7 @@
-var data;
 var color = d3.scale.category20();
 var width = 600, height = 400;
 
+var graph;
 var force;
 
 var svg; 
@@ -31,12 +31,12 @@ function nodeDblclick() {
         data.links.push(new_graph.links)
     // Overlay new node data on old
         console.log("length of new data for : " + actor + " is " + new_data.nodes.length)
-        force
+        force = force
             .nodes(data.nodes)
             .links(data.links)
             .start();
 
-        link
+        link = link
             .data(data.links)
             .enter().append("line")
             .attr("class", "link")
@@ -44,7 +44,7 @@ function nodeDblclick() {
                 return Math.sqrt(d.value);
             });
 
-        node
+        node = node
             .data(data.nodes)
             .enter().append("g")
             .attr("class", "node")
@@ -95,6 +95,17 @@ function tick() {
     node = node.attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
 }
 
+function initialiseLayout(graph) {
+    force = d3.layout.force()
+            .charge(-120)
+            .linkDistance(100)
+            .size([width, height])
+            .nodes(graph.nodes)
+            .links(graph.links)
+            .on("tick", tick)
+}
+
+
 $(document).ready(function() {
     // Start fetching data
     $("#refresh-btn").addClass("loading").html('Fetching…')
@@ -107,25 +118,20 @@ $(document).ready(function() {
         .attr("viewBox", "0 0 600 400")
         .classed("svg-content-responsive", true); 
 
+    // Get the data needed to make the data call 
     var endpoint = $('#endpoint').text()
     var actor = $('#actor').text()
 
     // This makes sure the actor appears in the select box
     $("#selCentralActor").val(actor)
 
+    // Fetch the data and initialise the network
     d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, graph) {
         if (error) throw error;
-        data = graph;
         
-        force = 
-            d3.layout.force()
-            .charge(-120)
-            .linkDistance(100)
-            .size([width, height])
-            .nodes(graph.nodes)
-            .links(graph.links)
-            .on("tick", tick)
+        initialiseLayout(graph);
 
+        
         link = svg.selectAll(".link")
         link = link.data(graph.links)
             .enter().append("line")
@@ -158,10 +164,12 @@ $(document).ready(function() {
                 return d.name;
             });
 
+        // Make sure the globals are initialised with the correct things
         svg = d3.select(".svg-content-responsive")
         node = svg.selectAll(".node")
         link = svg.selectAll(".link")
 
+        // Start it all running
         force.start();
         // Put in the central actor name and biog
         $("#central-actor").html('<strong>' + actor + ':  </strong>')
