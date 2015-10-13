@@ -2,10 +2,12 @@ var data;
 var color = d3.scale.category20();
 var width = 600, height = 400;
 
-var force = d3.layout.force()
-        .charge(-120)
-        .linkDistance(100)
-        .size([width, height]);
+var force;
+
+var svg = d3.select(".container")
+
+var link = svg.selectAll(".link")
+var node = svg.selectAll(".node")
 
 
 function nodeClick(d) {
@@ -34,8 +36,7 @@ function nodeDblclick() {
             .links(data.links)
             .start();
 
-        var svg = d3.select(".container")
-        var link = svg.selectAll(".link")
+        link
             .data(data.links)
             .enter().append("line")
             .attr("class", "link")
@@ -43,7 +44,7 @@ function nodeDblclick() {
                 return Math.sqrt(d.value);
             });
 
-        var node = svg.selectAll(".node")
+        node
             .data(data.nodes)
             .enter().append("g")
             .attr("class", "node")
@@ -77,27 +78,37 @@ function pressRefresh(e){
   
 }
 
+function tick() {
+    link = link.attr("x1", function(d) {
+            return d.source.x;
+        })
+        .attr("y1", function(d) {
+            return d.source.y;
+        })
+        .attr("x2", function(d) {
+            return d.target.x;
+        })
+        .attr("y2", function(d) {
+            return d.target.y;
+        });
+
+    var svg = d3.select(".container")
+    var node = svg.selectAll(".node")
+    node = node.attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
+}
+
 $(document).ready(function() {
     // Start fetching data
     $("#refresh-btn").addClass("loading").html('Fetching…')
 
-    /* var zoom = d3.behavior.zoom()
-        .scaleExtent([1, 10])
-        .on("zoom", zoomed);
-    */
 
-    var svg = d3.select(".container")
+    svg = svg
         .append("div")
         .classed("svg-container", true)
         .append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", "0 0 600 400")
         .classed("svg-content-responsive", true); 
-
-    /* function zoomed() {
-        container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-    } 
-    */
 
     var endpoint = $('#endpoint').text()
     var actor = $('#actor').text()
@@ -108,29 +119,33 @@ $(document).ready(function() {
     d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, graph) {
         if (error) throw error;
         data = graph;
-        force
+        
+        force = 
+            d3.layout.force()
+            .charge(-120)
+            .linkDistance(100)
+            .size([width, height])
             .nodes(graph.nodes)
             .links(graph.links)
-            .start();
+            .on("tick", tick)
 
-        var link = svg.selectAll(".link")
-            .data(graph.links)
+        link = link.data(graph.links)
             .enter().append("line")
             .attr("class", "link")
             .style("stroke-width", function(d) {
                 return Math.sqrt(d.value);
             });
 
-        var node = svg.selectAll(".node")
-            .data(graph.nodes)
+        node = node.data(graph.nodes)
             .enter().append("g")
             .attr("class", "node")
-            .attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
+            .attr("transform", function(d) { return 'translate-setup(' + [d.x, d.y] + ')'; })
             .on("click", nodeClick)
             .on("dblclick", nodeDblclick)
             .call(force.drag);
 
-        node.append("circle")
+        node = node
+            .append("circle")
             .attr("r", function(d) {
                 return 3.0 + 2.0 * Math.sqrt(d.value);
             })
@@ -138,33 +153,13 @@ $(document).ready(function() {
                 return color(d.group);
             })
 
-        node.append("title")
+        node = node
+            .append("title")
             .text(function(d) {
                 return d.name;
             });
 
-/*        node.append("text")
-            .attr("dx", 12)
-            .attr("dy", ".35em")
-            .text(function(d) { return d.name });
-*/
-
-        force.on("tick", function() {
-            link.attr("x1", function(d) {
-                    return d.source.x;
-                })
-                .attr("y1", function(d) {
-                    return d.source.y;
-                })
-                .attr("x2", function(d) {
-                    return d.target.x;
-                })
-                .attr("y2", function(d) {
-                    return d.target.y;
-                });
-
-            node.attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
-        });
+        force.start();
         // Put in the central actor name and biog
         $("#central-actor").html('<strong>' + actor + ':  </strong>')
         $("#central-actor-biog").html(graph["nodes"][0]["comment"])
