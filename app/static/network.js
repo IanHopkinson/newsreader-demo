@@ -43,7 +43,7 @@ function nodeDblclick() {
         if (error) throw error;
 
         console.log("length of old data : " + nodes.length)
-
+        console.log("length of new data : " + new_graph.nodes.length)
         // We need to be smarter here,
         // (3) if yes then don't append but update value
         // (5) Add appropriate link to links.
@@ -51,11 +51,13 @@ function nodeDblclick() {
         for (var i = 0; i < nodes.length; i++) {
             node_dict[nodes[i].name] = nodes[i].index
         }
-
+        console.log("**Initial node_dict**")
+        console.log(node_dict)
         var origin_node_idx = node_dict[new_graph.nodes[0].name]
         for (var i = 0; i < new_graph.nodes.length; i++) {
             if (new_graph.nodes[i].name in node_dict) {
                 // Node already exists
+                console.log("Node already exists:" + new_graph.nodes[i].name)
                 var id = node_dict[new_graph.nodes[i].name]
                 nodes[id].value = nodes[id].value + new_graph.nodes[i].value
                 var new_link = {}
@@ -65,27 +67,27 @@ function nodeDblclick() {
                 links.push(new_link)
             } else {
                 // New node
+                console.log("New node:" + new_graph.nodes[i].name)
+                new_graph.nodes[i].index = nodes.length
                 nodes.push(new_graph.nodes[i])
                 node_dict[new_graph.nodes[i].name] = nodes.length
                 var new_link = {}
-                new_link.source = nodes.length 
+                new_link.source = nodes.length
                 new_link.target = origin_node_idx
                 new_link.value = 1
                 links.push(new_link)
             }
         }
-        nodes = nodes.concat(new_graph.nodes)
-        links = links.concat(new_graph.links)
             // Overlay new node data on old
-        console.log("length of new data for : " + actor + " is " + new_graph.nodes.length)
-        console.log("length of combined data : " + actor + " is " + nodes.length)
+        
+        console.log("length of combined data : " + nodes.length)
 
-        initialiseLayout(links, nodes);
+        //initialiseLayout(links, nodes);
 
         link = svg.selectAll(".link")
         node = svg.selectAll(".node")
 
-        populateNodes(links, nodes);
+        //populateNodes(links, nodes);
     });
 
 }
@@ -133,7 +135,6 @@ function initialiseLayout(links, nodes) {
 }
 //d.source.id + "-" + d.target.id
 function populateNodes(links, nodes) {
-    console.log(force)
     link = link.data(force.links())
         .enter().append("line")
         .attr("class", "link")
