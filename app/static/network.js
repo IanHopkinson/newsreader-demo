@@ -1,7 +1,7 @@
 var color = d3.scale.category20();
 var width = 600, height = 400;
 
-var graph;
+var graph = [];
 var force;
 
 var svg; 
@@ -26,45 +26,13 @@ function nodeDblclick() {
     // Get data for new node
     d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, new_graph) {
         if (error) throw error;
-        new_data = new_graph;
-        data.nodes.push(new_graph.nodes)
-        data.links.push(new_graph.links)
+        
+        graph.nodes.push(new_graph.nodes)
+        graph.links.push(new_graph.links)
     // Overlay new node data on old
         console.log("length of new data for : " + actor + " is " + new_data.nodes.length)
-        force = force
-            .nodes(data.nodes)
-            .links(data.links)
-            .start();
 
-        link = link
-            .data(data.links)
-            .enter().append("line")
-            .attr("class", "link")
-            .style("stroke-width", function(d) {
-                return Math.sqrt(d.value);
-            });
-
-        node = node
-            .data(data.nodes)
-            .enter().append("g")
-            .attr("class", "node")
-            .attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
-            .on("click", nodeClick)
-            .on("dblclick", nodeDblclick)
-            .call(force.drag);
-
-        node.append("circle")
-            .attr("r", function(d) {
-                return 3.0 + 2.0 * Math.sqrt(d.value);
-            })
-            .style("fill", function(d) {
-                return color(d.group);
-            })
-
-        node.append("title")
-            .text(function(d) {
-                return d.name;
-            });
+        populateNodes(graph)
     });
 
 }
@@ -95,18 +63,18 @@ function tick() {
     node = node.attr("transform", function(d) { return 'translate(' + [d.x, d.y] + ')'; })
 }
 
-function initialiseLayout(graph) {
+function initialiseLayout(links, nodes) {
     force = d3.layout.force()
             .charge(-120)
             .linkDistance(100)
             .size([width, height])
-            .nodes(graph.nodes)
-            .links(graph.links)
+            .nodes(nodes)
+            .links(links)
             .on("tick", tick)
 }
 
 function populateNodes(graph) {
-    link = link.data(graph.links)
+    link = link.data(force.links())
             .enter().append("line")
             .attr("class", "link")
             .style("stroke-width", function(d) {
@@ -114,7 +82,7 @@ function populateNodes(graph) {
             });
 
         
-        node = node.data(graph.nodes)
+        node = node.data(force.nodes())
             .enter().append("g")
             .attr("class", "node")
             //.attr("transform", function(d) { return 'translate-setup(' + [d.x, d.y] + ')'; })
@@ -164,13 +132,16 @@ $(document).ready(function() {
     d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, graph) {
         if (error) throw error;
         
-        initialiseLayout(graph);
+        links = graph.links
+        nodes = graph.nodes
+
+        initialiseLayout(links, nodes);
 
         
         link = svg.selectAll(".link")
         node = svg.selectAll(".node")
 
-        populateNodes(graph)
+        populateNodes(links, nodes)
         
 
         // Make sure the globals are initialised with the correct things
