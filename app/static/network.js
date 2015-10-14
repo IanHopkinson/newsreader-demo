@@ -2,7 +2,17 @@ var color = d3.scale.category20();
 var width = 600, height = 400;
 
 var graph = [];
-var force;
+var force = {};
+
+var nodes = []
+var links = []
+force = d3.layout.force()
+            .charge(-120)
+            .linkDistance(100)
+            .size([width, height])
+            .nodes(nodes)
+            .links(links)
+            .on("tick", tick)
 
 var svg; 
 
@@ -27,12 +37,20 @@ function nodeDblclick() {
     d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, new_graph) {
         if (error) throw error;
         
-        graph.nodes.push(new_graph.nodes)
-        graph.links.push(new_graph.links)
-    // Overlay new node data on old
-        console.log("length of new data for : " + actor + " is " + new_data.nodes.length)
+        console.log("length of old data : " + nodes.length)
 
-        populateNodes(graph)
+        nodes = nodes.concat(new_graph.nodes)
+        links = links.concat(new_graph.links)
+    // Overlay new node data on old
+        console.log("length of new data for : " + actor + " is " + new_graph.nodes.length)
+        console.log("length of combined data : " + actor + " is " + nodes.length)
+
+        initialiseLayout(links, nodes);
+
+        link = svg.selectAll(".link")
+        node = svg.selectAll(".node")
+
+        populateNodes(links, nodes);
     });
 
 }
@@ -47,6 +65,10 @@ function pressRefresh(e){
 }
 
 function tick() {
+    svg = d3.select(".svg-content-responsive")
+    node = svg.selectAll(".node")
+    link = svg.selectAll(".link")
+
     link = link.attr("x1", function(d) {
             return d.source.x;
         })
@@ -72,8 +94,9 @@ function initialiseLayout(links, nodes) {
             .links(links)
             .on("tick", tick)
 }
-
-function populateNodes(graph) {
+//d.source.id + "-" + d.target.id
+function populateNodes(links, nodes) {
+    console.log(force)
     link = link.data(force.links())
             .enter().append("line")
             .attr("class", "link")
