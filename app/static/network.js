@@ -35,6 +35,7 @@ function nodeClick(d) {
 }
 
 function combine_networks(old_graph, new_graph) {
+    console.log("**graphs before combination**")
     console.log(old_graph)
     console.log(new_graph)
     var node_dict = new Array();
@@ -57,17 +58,24 @@ function combine_networks(old_graph, new_graph) {
                 old_graph.links.push(new_link)
             } else {
                 // New node
+                // Problem is that link 143, Rick Santorum has source undefined
                 console.log("New node:" + new_graph.nodes[i].name)
-                new_graph.nodes[i].index = old_graph.nodes.length
-                nodes.push(new_graph.nodes[i])
-                node_dict[new_graph.nodes[i].name] = old_graph.nodes.length
+                console.log(new_graph.nodes[i])
+                new_graph.nodes[i].index = old_graph.nodes.length -1
+                old_graph.nodes.push(new_graph.nodes[i])
+                node_dict[new_graph.nodes[i].name] = old_graph.nodes.length - 1
+
                 var new_link = {}
-                new_link.source = old_graph.nodes.length
+                new_link.source = old_graph.nodes.length - 1
                 new_link.target = origin_node_idx
                 new_link.value = 1
-                //old_graph.links.push(new_link)
+                old_graph.links.push(new_link)
             }
         }
+        console.log("**graph after combination**")
+        console.log(old_graph)
+        console.log("**Final node_dict**")
+        console.log(node_dict)
     return old_graph
 }
 
