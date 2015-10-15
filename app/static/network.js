@@ -35,9 +35,11 @@ function nodeClick(d) {
 }
 
 function combine_networks(old_graph, new_graph) {
+    console.log(old_graph)
+    console.log(new_graph)
     var node_dict = new Array();
         for (var i = 0; i < old_graph.nodes.length; i++) {
-            node_dict[old_graph.nodes[i].name] = old_graph.nodes[i].index
+            node_dict[old_graph.nodes[i].name] = i
         }
         console.log("**Initial node_dict**")
         console.log(node_dict)
@@ -63,7 +65,7 @@ function combine_networks(old_graph, new_graph) {
                 new_link.source = old_graph.nodes.length
                 new_link.target = origin_node_idx
                 new_link.value = 1
-                old_graph.links.push(new_link)
+                //old_graph.links.push(new_link)
             }
         }
     return old_graph
@@ -202,7 +204,9 @@ $(document).ready(function() {
     // Fetch the data and initialise the network
     d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, graph) {
         if (error) throw error;
-
+        d3.json("/network/" + endpoint + "/Mitt_Romney/data", function(error, new_graph) {
+        
+        graph = combine_networks(graph, new_graph)
         links = graph.links
         nodes = graph.nodes
 
@@ -218,7 +222,7 @@ $(document).ready(function() {
         svg = d3.select(".svg-content-responsive")
         node = svg.selectAll(".node")
         link = svg.selectAll(".link")
-
+        });
 
         // Put in the central actor name and biog
         $("#central-actor").html('<strong>' + actor + ':  </strong>')
