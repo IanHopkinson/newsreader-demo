@@ -47,6 +47,17 @@ Document centric
 
 # Notes
 
+A query like this will give us the articles relating to an event in the form of mentions:
+
+https://newsreader.scraperwiki.com/wikinews/property_of_an_actor?uris.0=http://en.wikinews.org/wiki/Vettel_becomes_youngest_Formula_One_champion%23ev27_1&uris.1=gaf:denotedBy
+
+Mentions include a URL and a character offset. Alternatively we can use "describe" on an event and get everything. For a document a query like this:
+
+https://newsreader.scraperwiki.com/wikinews/get_document_metadata?uris.0=http://en.wikinews.org/wiki/Vettel_becomes_youngest_Formula_One_champion
+
+Should give us source, title and publication date (as well as a list of mentions)
+
+
 Updating a force layout, Mike Bostock's illustration:
 
 http://bl.ocks.org/mbostock/1095795
