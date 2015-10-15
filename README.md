@@ -1,13 +1,33 @@
 # NewsReader Demo
  Ian Hopkinson 2015-10-02
 
- A web app which demos the [NewsReader Project](https://) technology by making visualisations via the [Simple API](), developed at [ScraperWiki](https://scraperwiki.com). 
+ A web app which demos the [NewsReader Project](http://www.newsreader-project.eu/) technology by making visualisations via the [Simple API](https://newsreader.scraperwiki.com/), developed at [ScraperWiki](https://scraperwiki.com). 
+
+## Local install
+
+* `git clone git@github.com:scraperwiki/newsreader-demo`
+
+You need to define an `NEWSREADER_PUBLIC_API_KEY` environment variable for local development, to access the
+Simple API to a KnowledgeStore. This can be obtained by contacting hello@scraperwiki.com
+
+### Running via Flask
+
+* Work on a virtualenv (optional)
+1. `pip install -r requirements.txt`
+2. `python local_run.py`
+
+App accessible via http://127.0.0.1:5000
+
+### Running via Docker
+
+1. Do `make run`
+
+App accessible via http://0.0.0.0:8000
 
 # TODO
 
 4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
 5. Network view should overlay a second network on double-clicking a node
-6. Biography of central actor
 8. Events involving both actors 
 7. Force layout seems to start some way off screen... this looks like a fix: http://stackoverflow.com/a/19176409/19172
 
