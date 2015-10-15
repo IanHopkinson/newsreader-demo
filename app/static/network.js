@@ -34,22 +34,10 @@ function nodeClick(d) {
     });
 }
 
-function nodeDblclick() {
-    var actor = d3.select(this).select("title").text()
-    var endpoint = $('#endpoint').text()
-    console.log("Getting data for " + actor + " from " + endpoint)
-        // Get data for new node
-    d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, new_graph) {
-        if (error) throw error;
-
-        console.log("length of old data : " + nodes.length)
-        console.log("length of new data : " + new_graph.nodes.length)
-        // We need to be smarter here,
-        // (3) if yes then don't append but update value
-        // (5) Add appropriate link to links.
-        var node_dict = new Array();
-        for (var i = 0; i < nodes.length; i++) {
-            node_dict[nodes[i].name] = nodes[i].index
+function combine_networks(old_graph, new_graph) {
+    var node_dict = new Array();
+        for (var i = 0; i < old_graph.nodes.length; i++) {
+            node_dict[old_graph.nodes[i].name] = old_graph.nodes[i].index
         }
         console.log("**Initial node_dict**")
         console.log(node_dict)
@@ -59,35 +47,55 @@ function nodeDblclick() {
                 // Node already exists
                 console.log("Node already exists:" + new_graph.nodes[i].name)
                 var id = node_dict[new_graph.nodes[i].name]
-                nodes[id].value = nodes[id].value + new_graph.nodes[i].value
+                old_graph.nodes[id].value = old_graph.nodes[id].value + new_graph.nodes[i].value
                 var new_link = {}
                 new_link.source = id
                 new_link.target = origin_node_idx
                 new_link.value = 1
-                links.push(new_link)
+                old_graph.links.push(new_link)
             } else {
                 // New node
                 console.log("New node:" + new_graph.nodes[i].name)
-                new_graph.nodes[i].index = nodes.length
+                new_graph.nodes[i].index = old_graph.nodes.length
                 nodes.push(new_graph.nodes[i])
-                node_dict[new_graph.nodes[i].name] = nodes.length
+                node_dict[new_graph.nodes[i].name] = old_graph.nodes.length
                 var new_link = {}
-                new_link.source = nodes.length
+                new_link.source = old_graph.nodes.length
                 new_link.target = origin_node_idx
                 new_link.value = 1
-                links.push(new_link)
+                old_graph.links.push(new_link)
             }
         }
-            // Overlay new node data on old
-        
-        console.log("length of combined data : " + nodes.length)
+    return old_graph
+}
 
-        //initialiseLayout(links, nodes);
+function nodeDblclick() {
+    var actor = d3.select(this).select("title").text()
+    var endpoint = $('#endpoint').text()
+    console.log("Getting data for " + actor + " from " + endpoint)
+        // Get data for new node
+    d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, new_graph) {
+        if (error) throw error;
+
+        var old_graph = {}
+        old_graph.nodes = nodes
+        old_graph.links = links
+        console.log("length of old data : " + old_graph.nodes.length)
+        console.log("length of new data : " + new_graph.nodes.length)
+        
+        old_graph = combine_networks(old_graph, new_graph)
+
+        console.log("length of combined data : " + old_graph.nodes.length)
+
+        links = old_graph.links
+        nodes = old_graph.nodes
+
+        initialiseLayout(links, nodes);
 
         link = svg.selectAll(".link")
         node = svg.selectAll(".node")
 
-        //populateNodes(links, nodes);
+        populateNodes(links, nodes);
     });
 
 }
@@ -136,12 +144,13 @@ function initialiseLayout(links, nodes) {
 //d.source.id + "-" + d.target.id
 function populateNodes(links, nodes) {
     link = link.data(force.links())
-        .enter().append("line")
+    link.enter().append("line")
         .attr("class", "link")
         .style("stroke-width", function(d) {
             return Math.sqrt(d.value);
         });
 
+    link.exit().remove()
 
     node = node.data(force.nodes())
         .enter().append("g")
@@ -151,7 +160,7 @@ function populateNodes(links, nodes) {
         .on("dblclick", nodeDblclick)
         .call(force.drag);
 
-    node = node
+    node = node.data(force.nodes())
         .append("circle")
         .attr("r", function(d) {
             return 3.0 + 2.0 * Math.sqrt(d.value);
@@ -160,12 +169,13 @@ function populateNodes(links, nodes) {
             return color(d.group);
         })
 
-    node = node
+    node = node.data(force.nodes())
         .append("title")
         .text(function(d) {
             return d.name;
         });
 
+    node.data(force.nodes()).exit().remove()
     // Start it all running
     force.start();
 }
@@ -197,7 +207,6 @@ $(document).ready(function() {
         nodes = graph.nodes
 
         initialiseLayout(links, nodes);
-
 
         link = svg.selectAll(".link")
         node = svg.selectAll(".node")
