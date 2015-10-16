@@ -2,6 +2,8 @@ var color = d3.scale.category20();
 var width = 600,
     height = 400;
 
+var current_group = 1;
+
 var graph = [];
 var force = {};
 
@@ -52,6 +54,7 @@ function combine_networks(old_graph, new_graph) {
                 console.log("Node already exists:" + new_graph.nodes[i].name)
                 var id = node_dict[new_graph.nodes[i].name]
                 old_graph.nodes[id].value = old_graph.nodes[id].value + new_graph.nodes[i].value
+                old_graph.nodes[id].group = current_group
                 var new_link = {}
                 new_link.source = id
                 new_link.target = origin_node_idx
@@ -63,6 +66,7 @@ function combine_networks(old_graph, new_graph) {
                 console.log("New node:" + new_graph.nodes[i].name)
                 console.log(new_graph.nodes[i])
                 new_graph.nodes[i].index = old_graph.nodes.length -1
+                new_graph.nodes[i].group = current_group
                 old_graph.nodes.push(new_graph.nodes[i])
                 node_dict[new_graph.nodes[i].name] = old_graph.nodes.length - 1
 
@@ -88,6 +92,7 @@ function nodeDblclick() {
     d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, new_graph) {
         if (error) throw error;
 
+        current_group = current_group + 1;
         var old_graph = {}
         old_graph.nodes = nodes
         old_graph.links = links
