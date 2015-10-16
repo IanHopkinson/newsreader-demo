@@ -103,8 +103,8 @@ function nodeDblclick() {
 
         //initialiseLayout(links, nodes);
 
-        link = svg.selectAll(".link")
-        node = svg.selectAll(".node")
+        link = svg.select(".links").selectAll(".link")
+        node = svg.select(".nodes").selectAll(".node")
 
         populateNodes(links, nodes);
     });
@@ -204,6 +204,9 @@ $(document).ready(function() {
         .attr("viewBox", "0 0 600 400")
         .classed("svg-content-responsive", true);
 
+    svg.append("g").classed("links", true)
+    svg.append("g").classed("nodes", true)
+
     // Get the data needed to make the data call 
     var endpoint = $('#endpoint').text()
     var actor = $('#actor').text()
@@ -222,8 +225,8 @@ $(document).ready(function() {
 
         initialiseLayout(links, nodes);
 
-        link = svg.selectAll(".link")
-        node = svg.selectAll(".node")
+        link = svg.select(".links").selectAll(".link")
+        node = svg.select(".nodes").selectAll(".node")
 
         populateNodes(links, nodes)
 

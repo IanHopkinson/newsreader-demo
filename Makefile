@@ -1,5 +1,5 @@
 run:    build
-	@docker run \
+	docker run \
 		--name nwrdemo \
 	    -p 8000:8000 \
 	    --read-only \
@@ -9,10 +9,10 @@ run:    build
 	    ianhopkinson/newsreader_demo
 
 build:	clean
-	@docker build -t ianhopkinson/newsreader_demo .
+	docker build -t ianhopkinson/newsreader_demo .
 
 clean:
-	-@docker stop nwrdemo
-	@docker rm nwrdemo
+	-docker stop nwrdemo
+	docker rm nwrdemo
 
 .PHONY: run build
