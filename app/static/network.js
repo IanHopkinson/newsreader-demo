@@ -9,7 +9,7 @@ var nodes = []
 var links = []
 force = d3.layout.force()
     .charge(-120)
-    .linkDistance(100)
+    .linkDistance(30)
     .size([width, height])
     .nodes(nodes)
     .links(links)
@@ -32,6 +32,7 @@ function nodeClick(d) {
     d3.select(this).select("circle").style('fill', function(d) {
         return "red";
     });
+    force.start()
 }
 
 function combine_networks(old_graph, new_graph) {
@@ -100,7 +101,7 @@ function nodeDblclick() {
         links = old_graph.links
         nodes = old_graph.nodes
 
-        initialiseLayout(links, nodes);
+        //initialiseLayout(links, nodes);
 
         link = svg.selectAll(".link")
         node = svg.selectAll(".node")
@@ -145,12 +146,13 @@ function tick() {
 function initialiseLayout(links, nodes) {
     force = d3.layout.force()
         .charge(-120)
-        .linkDistance(100)
+        .linkDistance(30)
         .size([width, height])
         .nodes(nodes)
         .links(links)
         .on("tick", tick)
 }
+
 //d.source.id + "-" + d.target.id
 function populateNodes(links, nodes) {
     link = link.data(force.links())
@@ -212,9 +214,9 @@ $(document).ready(function() {
     // Fetch the data and initialise the network
     d3.json("/network/" + endpoint + "/" + actor + "/data", function(error, graph) {
         if (error) throw error;
-        d3.json("/network/" + endpoint + "/Mitt_Romney/data", function(error, new_graph) {
+        // d3.json("/network/" + endpoint + "/Mitt_Romney/data", function(error, new_graph) {
         
-        graph = combine_networks(graph, new_graph)
+        //graph = combine_networks(graph, new_graph)
         links = graph.links
         nodes = graph.nodes
 
@@ -230,7 +232,7 @@ $(document).ready(function() {
         svg = d3.select(".svg-content-responsive")
         node = svg.selectAll(".node")
         link = svg.selectAll(".link")
-        });
+        // });
 
         // Put in the central actor name and biog
         $("#central-actor").html('<strong>' + actor + ':  </strong>')
