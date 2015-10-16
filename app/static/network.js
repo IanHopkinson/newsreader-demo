@@ -23,15 +23,15 @@ var link;
 var node;
 
 
-function nodeClick(d) {
-    $("#selected-actor").html('<strong>' + d.name + ':  </strong>')
-    $("#selected-actor-biog").html(d["comment"])
+function nodeClick(n) {
+    $("#selected-actor").html('<strong>' + n.name + ':  </strong>')
+    $("#selected-actor-biog").html(n["comment"])
         // Reset all colours
     d3.selectAll("circle").style('fill', function(d) {
             return color(d.group);
         })
         // Set one node colour
-    d3.select(this).select("circle").style('fill', function(d) {
+    d3.select(this).select("circle").style('fill', function() {
         return "red";
     });
     force.start()
@@ -54,7 +54,7 @@ function combine_networks(old_graph, new_graph) {
                 console.log("Node already exists:" + new_graph.nodes[i].name)
                 var id = node_dict[new_graph.nodes[i].name]
                 old_graph.nodes[id].value = old_graph.nodes[id].value + new_graph.nodes[i].value
-                old_graph.nodes[id].group = current_group
+                // old_graph.nodes[id].group = current_group
                 var new_link = {}
                 new_link.source = id
                 new_link.target = origin_node_idx
