@@ -26,8 +26,11 @@ App accessible via http://0.0.0.0:8000
 
 # TODO
 
+0. Colour central actors
+1. Colour actors by central actor
+2. List central actors as they are added
+3. Put all links beneath all nodes
 4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
-5. Network view should overlay a second network on double-clicking a node
 8. Events involving both actors 
 7. Force layout seems to start some way off screen... this looks like a fix: http://stackoverflow.com/a/19176409/19172
 
