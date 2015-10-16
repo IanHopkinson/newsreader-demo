@@ -26,8 +26,11 @@ App accessible via http://0.0.0.0:8000
 
 # TODO
 
+0. Colour central actors
+1. Colour actors by central actor
+2. List central actors as they are added
+3. Put all links beneath all nodes
 4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
-5. Network view should overlay a second network on double-clicking a node
 8. Events involving both actors 
 7. Force layout seems to start some way off screen... this looks like a fix: http://stackoverflow.com/a/19176409/19172
 
@@ -46,6 +49,17 @@ Document centric
 
 
 # Notes
+
+A query like this will give us the articles relating to an event in the form of mentions:
+
+https://newsreader.scraperwiki.com/wikinews/property_of_an_actor?uris.0=http://en.wikinews.org/wiki/Vettel_becomes_youngest_Formula_One_champion%23ev27_1&uris.1=gaf:denotedBy
+
+Mentions include a URL and a character offset. Alternatively we can use "describe" on an event and get everything. For a document a query like this:
+
+https://newsreader.scraperwiki.com/wikinews/get_document_metadata?uris.0=http://en.wikinews.org/wiki/Vettel_becomes_youngest_Formula_One_champion
+
+Should give us source, title and publication date (as well as a list of mentions)
+
 
 Updating a force layout, Mike Bostock's illustration:
 
