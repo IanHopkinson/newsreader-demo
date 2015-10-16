@@ -2,21 +2,21 @@ var color = d3.scale.category20();
 var width = 600,
     height = 400;
 
-var current_group = 1;
+var current_group = 2;
 
 var graph = [];
 var force = {};
 
 var nodes = []
 var links = []
-force = d3.layout.force()
+/*force = d3.layout.force()
     .charge(-120)
     .linkDistance(30)
-    .size([width, height])
+    //.size([width, height])
     .nodes(nodes)
     .links(links)
     .on("tick", tick)
-
+*/
 var svg;
 
 var link;
@@ -54,7 +54,7 @@ function combine_networks(old_graph, new_graph) {
                 console.log("Node already exists:" + new_graph.nodes[i].name)
                 var id = node_dict[new_graph.nodes[i].name]
                 old_graph.nodes[id].value = old_graph.nodes[id].value + new_graph.nodes[i].value
-                // old_graph.nodes[id].group = current_group
+                //old_graph.nodes[id].group = 20 //we put common nodes in group 20
                 var new_link = {}
                 new_link.source = id
                 new_link.target = origin_node_idx
@@ -85,7 +85,9 @@ function combine_networks(old_graph, new_graph) {
 }
 
 function nodeDblclick() {
-    var actor = d3.select(this).select("title").text()
+    //var actor = d3.select(this).select("title").text()
+    var actor = $("#selected-actor").text()
+    actor = actor.replace(":  ", "")
     var endpoint = $('#endpoint').text()
     console.log("Getting data for " + actor + " from " + endpoint)
         // Get data for new node
@@ -149,6 +151,8 @@ function tick() {
 }
 
 function initialiseLayout(links, nodes) {
+    width = $(".svg-content-responsive").width()/2
+    height = $(".svg-content-responsive").height()/2
     force = d3.layout.force()
         .charge(-120)
         .linkDistance(30)

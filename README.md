@@ -26,9 +26,9 @@ App accessible via http://0.0.0.0:8000
 
 # TODO
 
-0. Colour central actors
-1. Colour actors by central actor
+0. Style central actors
 2. List central actors as they are added
+3. Add button to get events with selected actor (double click is flakey)
 4. Handle "No data" - get an internal server error when asking for data on someone who doesn't exist.
 8. Events involving both actors 
 7. Force layout seems to start some way off screen... this looks like a fix: http://stackoverflow.com/a/19176409/19172
