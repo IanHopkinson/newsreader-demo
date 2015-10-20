@@ -88,6 +88,7 @@ function nodeDblclick() {
     //var actor = d3.select(this).select("title").text()
     var actor = $("#selected-actor").text()
     actor = actor.replace(":  ", "")
+    $("#central-actors-list").append('<li>' + actor + '</li>');
     var endpoint = $('#endpoint').text()
     console.log("Getting data for " + actor + " from " + endpoint)
         // Get data for new node
@@ -114,6 +115,9 @@ function nodeDblclick() {
         node = svg.select(".nodes").selectAll(".node")
 
         populateNodes(links, nodes);
+
+        // Add to the central actor list
+        
     });
 
 }
@@ -249,7 +253,8 @@ $(document).ready(function() {
         // Put in the central actor name and biog
         $("#central-actor").html('<strong>' + actor + ':  </strong>')
         $("#central-actor-biog").html(graph["nodes"][0]["comment"])
-            // Put the Refresh button back to normal
+        $("#central-actors-list").append('<li>' + actor + '</li>');
+        // Put the Refresh button back to normal
         $("#refresh-btn").removeClass("loading").html('<span class="glyphicon glyphicon-refresh"></span>Refresh')
     });
 });
