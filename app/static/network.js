@@ -37,6 +37,12 @@ function nodeClick(n) {
     force.start()
 }
 
+function decorateCentralActors() {
+    var centralActors = [];
+    $("#central-actors-list li").each(function() { centralActors.push($(this).text()) });
+    console.log("in decorateCentralActors with: " + centralActors)
+}
+
 function combine_networks(old_graph, new_graph) {
     console.log("**graphs before combination**")
     console.log(old_graph)
@@ -117,7 +123,7 @@ function nodeDblclick() {
         populateNodes(links, nodes);
 
         // Add to the central actor list
-        
+        decorateCentralActors()
     });
 
 }
@@ -168,6 +174,7 @@ function initialiseLayout(links, nodes) {
 
 //d.source.id + "-" + d.target.id
 function populateNodes(links, nodes) {
+    console.log(links[0] )
     link = link.data(force.links())
     link.enter().append("line")
         .attr("class", "link")
@@ -256,5 +263,6 @@ $(document).ready(function() {
         $("#central-actors-list").append('<li>' + actor + '</li>');
         // Put the Refresh button back to normal
         $("#refresh-btn").removeClass("loading").html('<span class="glyphicon glyphicon-refresh"></span>Refresh')
+        decorateCentralActors()
     });
 });
