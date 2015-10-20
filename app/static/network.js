@@ -40,7 +40,17 @@ function nodeClick(n) {
 function decorateCentralActors() {
     var centralActors = [];
     $("#central-actors-list li").each(function() { centralActors.push($(this).text()) });
-    console.log("in decorateCentralActors with: " + centralActors)
+
+    var tmp = $(".nodes .node")
+    tmp.each(function() {
+        var name = $(this).find("title").text()
+        if ($.inArray(name, centralActors) != -1){
+            $(this).find("circle").css('stroke', 'black');
+            /* if ($(this).find("text").length == 0){
+            $(this).append("<text>" + name + "</text>");
+        } */
+    }
+    });
 }
 
 function combine_networks(old_graph, new_graph) {
