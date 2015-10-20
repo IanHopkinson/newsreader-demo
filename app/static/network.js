@@ -44,20 +44,14 @@ function decorateCentralActors() {
 }
 
 function combine_networks(old_graph, new_graph) {
-    console.log("**graphs before combination**")
-    console.log(old_graph)
-    console.log(new_graph)
     var node_dict = new Array();
         for (var i = 0; i < old_graph.nodes.length; i++) {
             node_dict[old_graph.nodes[i].name] = i
         }
-        console.log("**Initial node_dict**")
-        console.log(node_dict)
         var origin_node_idx = node_dict[new_graph.nodes[0].name]
         for (var i = 0; i < new_graph.nodes.length; i++) {
             if (new_graph.nodes[i].name in node_dict) {
                 // Node already exists
-                console.log("Node already exists:" + new_graph.nodes[i].name)
                 var id = node_dict[new_graph.nodes[i].name]
                 old_graph.nodes[id].value = old_graph.nodes[id].value + new_graph.nodes[i].value
                 //old_graph.nodes[id].group = 20 //we put common nodes in group 20
@@ -69,8 +63,6 @@ function combine_networks(old_graph, new_graph) {
             } else {
                 // New node
                 // Problem is that link 143, Rick Santorum has source undefined
-                console.log("New node:" + new_graph.nodes[i].name)
-                console.log(new_graph.nodes[i])
                 new_graph.nodes[i].index = old_graph.nodes.length -1
                 new_graph.nodes[i].group = current_group
                 old_graph.nodes.push(new_graph.nodes[i])
@@ -105,12 +97,8 @@ function nodeDblclick() {
         var old_graph = {}
         old_graph.nodes = nodes
         old_graph.links = links
-        console.log("length of old data : " + old_graph.nodes.length)
-        console.log("length of new data : " + new_graph.nodes.length)
         
         old_graph = combine_networks(old_graph, new_graph)
-
-        console.log("length of combined data : " + old_graph.nodes.length)
 
         links = old_graph.links
         nodes = old_graph.nodes
