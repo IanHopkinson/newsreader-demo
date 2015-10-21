@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+  <script src="{{url_for('static', filename='events.js')}}"></script>
+  <h2>Events view - events involving <span id="actor">{{ actor }}</span></h2>
+  <p>Data from the <span id="endpoint">wikinews</span> dataset</p>
+{% endblock %}
